@@ -1,5 +1,13 @@
 import React, {Component} from "react"
 
+
+const options = [
+    {label: "Apple", value: "apple",},
+    {label: "Mango", value: "mango",},
+    {label: "Banana", value: "banana",},
+    {label: "Pineapple", value: "pineapple"},
+];
+
 class FormClass extends Component {
     state = {
         name: "",
@@ -7,7 +15,8 @@ class FormClass extends Component {
         street: '',
         subject: "",
         city: "",
-        month: []
+        fruit: "",
+        meal: []
     }
 
     handleChange = (e) => {
@@ -18,9 +27,14 @@ class FormClass extends Component {
             [name]: value,
         })
     }
-
+    handleChangeSelect = (e) => {
+        let value = Array.from(e.target.selectedOptions, option => option.value.split(', '));
+        let values = value
+        this.setState({meal: values});
+    }
 
     render() {
+
         return (<>
             <h1>Form Class component</h1>
             <div style={{
@@ -71,23 +85,27 @@ class FormClass extends Component {
                         <option>Sosnowiec</option>
                         <option>Inne</option>
                     </select></label>
-                <label>Favorite month:
+                <label>Favorite fruit:
                     <select
-                        multiple={true}
-                        value={this.state.month}
-                        name="month"
-                        id="month"
-                        onChange={(e) => {
-                            let target = e.target.value
-                            this.setState({
-                                month: target,
-                            });
-                        }}
-
+                        value={this.state.fruit}
+                        name="fruit"
+                        onChange={this.handleChange}>
+                        {options.map((option) => (
+                            <option value={option.value}>{option.label}</option>
+                        ))}
+                    </select>
+                </label>
+                <label>Meal:
+                    <select
+                        multiple="multiple"
+                        name="meal"
+                        onChange={this.handleChangeSelect}
                     >
-                        <option value="April">April</option>
-                        <option value="August">August</option>
-                        <option value="December">December</option>
+                        <option value="1">Breakfast</option>
+                        <option value="2">Lunch</option>
+                        <option value="3">Dinner</option>
+                        <option value="4">Snacks</option>
+                        <option value="5">Dessert</option>
                     </select>
                 </label>
             </div>
@@ -101,6 +119,8 @@ class FormClass extends Component {
                 <div>Street: {this.state.street}</div>
                 <div>Subject: {this.state.subject}</div>
                 <div>City: {this.state.city}</div>
+                <div>Fruit: {this.state.fruit}</div>
+                <div>Meal: {this.state.meal}</div>
             </div>
         </>)
     }
